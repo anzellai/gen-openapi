@@ -11,8 +11,8 @@
       description: Represented as {{$type.Type}} on the server side
       {{end -}}
       enum:
-        {{- range $type.Fields}}
-        - {{.Name}}
+        {{- range $i, $field := $type.Fields}}
+        - "{{if eq (printf `%v` $i) (printf `%v` $field.Value)}}{{$field.Name}}{{else}}{{$field.Value}}{{end}}"
         {{- end -}}
     {{else}}
       type: object
