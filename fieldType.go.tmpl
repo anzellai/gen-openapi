@@ -20,7 +20,9 @@ type: array
 
 {{- else if isCoreType $type -}}
 
-type: {{ get $typeMap $type }}
+{{ if eq (get $typeMap $type) "timestamp" }}type: string
+{{ $indent }}format: date-time
+{{- else }}type: {{ get $typeMap $type }}{{ end }}
 
 {{- else -}}
 

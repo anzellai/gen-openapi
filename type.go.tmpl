@@ -28,6 +28,13 @@
       {{- range $i, $field := $type.Fields }}
         {{$field.Name -}}:
           {{ template "fieldType" dict "Type" $field.Type "TypeMap" $typeMap "Indent" "          " }}
+          {{- range $meta := $field.Meta -}}
+            {{- range $metaKey, $metaValue := $meta -}}
+              {{- if eq $metaKey "pattern" }}
+          pattern: "{{ $metaValue }}"
+              {{ end -}}
+            {{- end -}}
+          {{- end -}}
       {{- end -}}
     {{- end -}}
 {{- end -}}
