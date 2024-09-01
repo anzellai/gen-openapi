@@ -11,7 +11,7 @@
       {{if gt (len $type.Fields) 0 -}}
       {{if gt (len $type.Comments) 0 -}}
       description: |
-        {{- range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}
+        {{- range $i, $comment := $type.Comments}}{{if (ne $comment "")}}
         {{ $comment }}
         {{ end -}}
         {{- end }}
@@ -29,7 +29,7 @@
       {{- if gt (len $type.Fields) 0}}
       {{if gt (len $type.Comments) 0 -}}
       description: |
-        {{- range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}
+        {{- range $i, $comment := $type.Comments}}{{if (ne $comment "")}}
         {{ $comment }}
         {{ end -}}
         {{- end }}
@@ -46,7 +46,7 @@
       {{- end -}}
       {{- range $i, $field := $type.Fields }}
         {{$field.Name -}}:
-          {{ template "fieldType" dict "Name" $field.Name "Type" $field.Type "TypeMap" $typeMap "Indent" "          " }}
+          {{ template "fieldType" dict "Name" $field.Name "Comments" $field.Comments "Type" $field.Type "TypeMap" $typeMap "Indent" "          " }}
           {{- range $meta := $field.Meta -}}
             {{- range $metaKey, $metaValue := $meta -}}
               {{- if and (hasPrefix $metaKey "openapi.") (eq $metaKey "openapi.pattern") }}

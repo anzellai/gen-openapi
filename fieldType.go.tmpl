@@ -1,6 +1,7 @@
 {{- define "fieldType" -}}
 
 {{- $name := .Name -}}
+{{- $comments := .Comments -}}
 {{- $type := .Type -}}
 {{- $typeMap := .TypeMap -}}
 {{- $indent := .Indent -}}
@@ -10,8 +11,7 @@
 type: object
 {{ if exists . "Name" -}}
 {{ $indent }}title: {{$name}}
-{{ if gt (len $type.Comments) 0 }}{{ $indent }}description: |
-{{ $indent }}  {{range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}{{$comment}} {{end}}{{end}}
+{{ if and (exists . "Comments") ( gt (len $comments) 0) }}{{ $indent }}description: {{ join $comments ";" }}
 {{ else }}{{ $indent }}description: {{$name}} as in {{$type}}{{ end }}{{ end }}
 {{ $indent }}additionalProperties:
 {{ $indent }}  {{ template "fieldType" dict "Type" (mapValueType $type) "TypeMap" $typeMap "Indent" (print $indent "  ") }}
@@ -21,8 +21,7 @@ type: object
 type: array
 {{ if exists . "Name" -}}
 {{ $indent }}title: {{$name}}
-{{ if gt (len $type.Comments) 0 }}{{ $indent }}description: |
-{{ $indent }}  {{range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}{{$comment}} {{end}}{{end}}
+{{ if and (exists . "Comments") ( gt (len $comments) 0) }}{{ $indent }}description: {{ join $comments ";" }}
 {{ else }}{{ $indent }}description: {{$name}} as in {{$type}}{{ end }}{{ end }}
 {{ $indent }}items:
 {{ $indent }}  {{ template "fieldType" dict "Type" (listElemType $type) "TypeMap" $typeMap "Indent" (print $indent "  ") }}
@@ -34,8 +33,7 @@ type: array
 {{- else }}type: {{ get $typeMap $type }}{{ end }}
 {{ if exists . "Name" -}}
 {{ $indent }}title: {{$name}}
-{{ if gt (len $type.Comments) 0 }}{{ $indent }}description: |
-{{ $indent }}  {{range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}{{$comment}} {{end}}{{end}}
+{{ if and (exists . "Comments") ( gt (len $comments) 0) }}{{ $indent }}description: {{ join $comments ";" }}
 {{ else }}{{ $indent }}description: {{$name}} as in {{$type}}{{ end }}{{ end }}
 
 {{- else -}}
