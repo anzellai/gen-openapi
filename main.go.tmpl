@@ -103,6 +103,20 @@ components:
     {{$service.Name}}_{{$method.Name}}_Request:
       type: object
       {{- if gt (len $method.Inputs) 0 }}
+      {{ $required := false }}
+      {{- range $_, $input := $method.Inputs -}}
+      {{- if not $input.Optional -}}
+      {{ $required = true }}
+      {{- end -}}
+      {{- end -}}
+      {{- if $required -}}
+      required:
+      {{- end }}
+      {{- range $_, $input := $method.Inputs -}}
+      {{- if not $input.Optional }}
+        - {{$input.Name}}
+      {{- end -}}
+      {{- end }}
       properties:
         {{- range $_, $input := $method.Inputs}}
         {{$input.Name}}:
@@ -114,6 +128,20 @@ components:
     {{$service.Name}}_{{$method.Name}}_Response:
       type: object
       {{- if gt (len $method.Outputs) 0 }}
+      {{ $required := false }}
+      {{- range $_, $output := $method.Outputs -}}
+      {{- if not $output.Optional -}}
+      {{ $required = true }}
+      {{- end -}}
+      {{- end -}}
+      {{- if $required -}}
+      required:
+      {{- end }}
+      {{- range $_, $output := $method.Outputs -}}
+      {{- if not $output.Optional }}
+        - {{$output.Name}}
+      {{- end -}}
+      {{- end }}
       properties:
         {{- range $_, $output := .Outputs}}
         {{$output.Name}}:
