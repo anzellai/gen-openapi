@@ -7,8 +7,17 @@
 {{$type.Name}}:
     {{- if isEnumType $type}}
       type: string
+      title: {{$type.Name}}
       {{if gt (len $type.Fields) 0 -}}
-      description: Represented as {{$type.Type}} on the server side
+      {{if gt (len $type.Comments) 0 -}}
+      description: |
+        {{- range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}
+        {{ $comment }}
+        {{ end -}}
+        {{- end }}
+      {{- else }}
+      description: Represented as {{$type.Name}} {{$type.Type}} on the server side
+      {{- end }}
       {{end -}}
       enum:
         {{- range $i, $field := $type.Fields}}
@@ -16,7 +25,17 @@
         {{- end -}}
     {{else}}
       type: object
+      title: {{$type.Name}}
       {{- if gt (len $type.Fields) 0}}
+      {{if gt (len $type.Comments) 0 -}}
+      description: |
+        {{- range $i, $comment := $type.Comments}}{{if and (ne $comment "") (ne $i 0)}}
+        {{ $comment }}
+        {{ end -}}
+        {{- end }}
+      {{- else }}
+      description: Represented as {{$type.Name}} object on the server side
+      {{- end }}
       {{- if gt (len $type.RequiredFields) 0}}
       required:
       {{- range $i, $field := $type.RequiredFields }}
@@ -27,7 +46,7 @@
       {{- end -}}
       {{- range $i, $field := $type.Fields }}
         {{$field.Name -}}:
-          {{ template "fieldType" dict "Type" $field.Type "TypeMap" $typeMap "Indent" "          " }}
+          {{ template "fieldType" dict "Name" $field.Name "Type" $field.Type "TypeMap" $typeMap "Indent" "          " }}
           {{- range $meta := $field.Meta -}}
             {{- range $metaKey, $metaValue := $meta -}}
               {{- if and (hasPrefix $metaKey "openapi.") (eq $metaKey "openapi.pattern") }}

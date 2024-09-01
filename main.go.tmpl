@@ -120,7 +120,7 @@ components:
       properties:
         {{- range $_, $input := $method.Inputs}}
         {{$input.Name}}:
-          {{ template "fieldType" dict "Type" $input.Type "TypeMap" $typeMap "Indent" "          " }}
+          {{ template "fieldType" dict "Name" $input.Name "Type" $input.Type "TypeMap" $typeMap "Indent" "          " }}
         {{- end -}}
       {{- end -}}
     {{- end -}}
@@ -145,7 +145,7 @@ components:
       properties:
         {{- range $_, $output := .Outputs}}
         {{$output.Name}}:
-          {{ template "fieldType" dict "Type" $output.Type "TypeMap" $typeMap "Indent" "          " }}
+          {{ template "fieldType" dict "Name" $output.Name "Type" $output.Type "TypeMap" $typeMap "Indent" "          " }}
         {{- end -}}
         {{- end -}}
       {{- end -}}
