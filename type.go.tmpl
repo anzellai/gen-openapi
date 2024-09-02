@@ -50,10 +50,9 @@
           {{- range $meta := $field.Meta -}}
             {{- range $metaKey, $metaValue := $meta -}}
               {{- if and (hasPrefix $metaKey "openapi.") (eq $metaKey "openapi.pattern") }}
-          {{ printf "%s: |" (trimPrefix $metaKey "openapi.") }}
-            {{ $metaValue }}
+          {{ printf "%s: %q" (trimPrefix $metaKey "openapi.") (trim $metaValue)}}
           {{ else }}
-          {{ printf "%s: %s" (trimPrefix $metaKey "openapi.") $metaValue }}
+          {{ printf "%s: %s" (trimPrefix $metaKey "openapi.") (trim $metaValue) }}
               {{- end -}}
             {{- end -}}
           {{- end -}}
