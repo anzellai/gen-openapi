@@ -6,7 +6,7 @@
       required:
         - error
         - code
-        - msg
+        - message
         - status
       properties:
         error:
@@ -15,7 +15,7 @@
         code:
           type: number
           example: {{$error.Code}}
-        msg:
+        message:
           type: string
           example: {{printf "%q" $error.Message}}
         cause:
