@@ -156,6 +156,7 @@ paths:
   {{- range $_, $method := .Methods}}
   /rpc/{{$service.Name}}/{{$method.Name}}:
     post:
+      operationId: {{$method.Name | camelCase }}
       summary: {{$method.Name}}
     {{- if gt (len $method.Comments) 0 }}
       description: "{{ replaceAll (join $method.Comments "\n") "\"" "'" }}"
